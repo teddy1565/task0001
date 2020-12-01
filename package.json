@@ -1,0 +1,19 @@
+{
+  "name": "pacs",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "electron-packager ./ main --platform=win32 --arch=x64 --electron-version=10.1.3 --asar=true --out=DEMO --ignore=node_modules/electron-* --version-string.CompanyName=PDFencrypt --version-string.ProductName=interduce"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "css-vars-ponyfill": "^2.4.2",
+    "electron": "^11.0.3",
+    "electron-edge": "^6.5.5",
+    "electron-winstaller": "^4.0.1",
+    "mongodb": "^3.6.3"
+  }
+}

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+    <script type="text/javascript" src="../UI/jquery-3.5.1.js" onload="window.$ = window.jQuery = module.exports;"></script>
+    <script>
+        const { ipcRenderer } = require('electron');
+    </script>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <link rel="stylesheet" href="../UI/bootstrap-4.5.3-dist/css/bootstrap.css">
+        <script src="../UI/bootstrap-4.5.3-dist/js/bootstrap.bundle.js"></script>
+        <style>
+            body{
+                background-color: rgba(18, 126, 122, 0.3);
+            }
+        </style>
+        <script>
+            function test(){
+                ipcRenderer.send("DBtest","A");
+            }
+        </script>
+    </head>
+    <body>
+        <div class="container-fluid">
+            <div class="row"  style="background-color: cadetblue;">
+                <nav id="sidebarTitle" class="col-md-3 col-lg-2 d-md-block">
+                    <a class="navbar-brand col-md-3 col-lg-2 mr-0 px-3" >MongoDB</a>
+                </nav>
+            </div>
+            <div class="row">
+                <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block sidebar collapse">
+                    <div class="sidebar-sticky pt-3">
+                        <ul class="nav flex-column">
+                            <li class="nav-item">
+                                <button class="btn btn-success col-md-4">Main</button>
+                            </li>
+                            <li class="nav-item">
+                                <button class="btn btn-success col-md-4">001</button>
+                            </li>
+                            <li class="nav-item">
+                                <button class="btn btn-warning col-md-4">002</button>
+                            </li>
+                            <li class="nav-item">
+                                <button class="btn btn-danger col-md-4">003</button>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+                <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4" style="background-color:antiquewhite;">
+                    <div class="chartjs-size-monitor" style="position: absolute; inset: 0px; overflow: hidden; pointer-events: none; visibility: hidden; z-index: -1;">
+                        <div class="chartjs-size-monitor-expand" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;">
+                            <div style="position:absolute;width:1000000px;height:1000000px;left:0;top:0">
+                            </div>
+                        </div>
+                        <div class="chartjs-size-monitor-shrink" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;">
+                            <div style="position:absolute;width:200%;height:200%;left:0; top:0">
+                            </div>
+                        </div>
+                    </div>
+                </main>
+            </div>
+        </div>
+    </body>
+</html>
