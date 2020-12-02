@@ -29,18 +29,18 @@
             <div class="row">
                 <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block sidebar collapse">
                     <div class="sidebar-sticky pt-3">
-                        <ul class="nav flex-column">
+                        <ul class="nav flex-column" id="DBbuttonList">
                             <li class="nav-item">
-                                <button class="btn btn-success col-md-4">Main</button>
+                                <button class="btn btn-danger col-md-4" id="DB000">Main</button>
                             </li>
                             <li class="nav-item">
-                                <button class="btn btn-success col-md-4">001</button>
+                                <button class="btn btn-danger col-md-4" id="DB001">001</button>
                             </li>
                             <li class="nav-item">
-                                <button class="btn btn-warning col-md-4">002</button>
+                                <button class="btn btn-danger col-md-4" id="DB002">002</button>
                             </li>
                             <li class="nav-item">
-                                <button class="btn btn-danger col-md-4">003</button>
+                                <button class="btn btn-danger col-md-4" id="DB003">003</button>
                             </li>
                         </ul>
                     </div>
@@ -61,3 +61,13 @@
         </div>
     </body>
 </html>
+<script type="text/javascript">
+    ipcRenderer.on('RefreshDBstatus',(Event,args)=>{
+        let status=["btn btn-danger col-md-4","btn btn-success col-md-4","btn btn-warning col-md-4"];
+        args = JSON.parse(args);
+        document.getElementById(`${args.AEtitle}`).className = status[parseInt(args.statusCode)];
+    });
+    ipcRenderer.on('ButtonListRefresh',(Event,args)=>{
+        document.getElementById("DBbuttonList")+=`<li class="nav-item"><button class="btn btn-danger col-md-4" id="${args}">${args}</button></li>`
+    });
+</script>

@@ -1,12 +1,19 @@
 /**
  * module declear
  */
-const { app, BrowserWindow, Menu, MenuItem, shell ,ipcMain,ipcRenderer} = require('electron');
+const { app, BrowserWindow, Menu, MenuItem, shell ,ipcMain,ipcRenderer, webContents} = require('electron');
 const path = require('path');
 const mongo = require('mongodb');
-
+const fs = require('fs');
+const { error } = require('console');
 /**
- * 
+ * table declear
+ */
+const DBlist = (()=>{
+    return JSON.parse(fs.readFileSync(`${__dirname}/DBlist.json`));
+})();
+/**
+ * menuTemplate
  */
 let menuBuild = [
     {
@@ -52,6 +59,9 @@ let menuBuild = [
 ];
 let menu = Menu.buildFromTemplate(menuBuild);
 Menu.setApplicationMenu(menu);
+/**
+ * window
+ */
 function Mon_Board() {
     let MON_control = new BrowserWindow({
         width: 800,
@@ -61,6 +71,31 @@ function Mon_Board() {
         }
     });
     MON_control.loadFile(path.join(__dirname,"./src/Mongo.html"));
+    MON_control.webContents.on('did-finish-load',()=>{
+        /** */
+        /*(()=>{
+            let DBL = fs.readFileSync(`${__dirname}/ButtonLIST.json`);
+            for(let i in DBL){
+                MON_control.webContents.send('ButtonListRefresh',)
+            }
+            
+        })();*/
+        /** */
+        for(let i in DBlist){
+            mongo.MongoClient.connect(`${DBlist[i].IP}`,{useUnifiedTopology: true },(err,db)=>{
+                if(err){
+                    err = null;
+                    DBlist[i].status = "connection lost";
+                    DBlist[i].statusCode = "0";
+                    return 0;
+                }
+                DBlist[i].status = "online";
+                DBlist[i].statusCode = "1";
+                MON_control.webContents.send('RefreshDBstatus',`${JSON.stringify(DBlist[i])}`);
+                db.close();
+            });
+        }
+    });
 }
 function Docker_Board() {
     let Docker_control = new BrowserWindow({
@@ -111,11 +146,9 @@ function createWindow() {
     mainWindow.loadURL("https://cornerstonejs.org/");
 }
 app.whenReady().then(createWindow);
-app.on('window-all-closed', () => {
-    if (process.platform === 'win32') {
-        app.quit();
-    }
-});
+/**
+ * ipcCommunication
+ */
 ipcMain.on('DBtest',(Event,args)=>{
     mongo.MongoClient.connect("mongodb://localhost:27017/",(err,db)=>{
         if(err)throw err;
@@ -123,4 +156,12 @@ ipcMain.on('DBtest',(Event,args)=>{
         db.close();
     });
     Event.reply("B");
+});
+/**
+ * app end
+ */
+app.on('window-all-closed', () => {
+    if (process.platform === 'win32') {
+        app.quit();
+    }
 });
