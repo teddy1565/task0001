@@ -61,6 +61,7 @@ let menu = Menu.buildFromTemplate(menuBuild);
 Menu.setApplicationMenu(menu);
 /**
  * window
+ * s
  */
 function Mon_Board() {
     let MON_control = new BrowserWindow({
